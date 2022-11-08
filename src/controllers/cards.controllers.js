@@ -8,4 +8,5 @@ exports.getCardsList = (req, res, next) => {
     .then((cardsList) => {
       res.status(200).send(cardsList)
     })
+    .catch(next)
 };
