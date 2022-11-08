@@ -1,6 +1,7 @@
 const express = require('express');
 const {
-  getCardsList
+  getCardsList,
+  getCardById
 } = require('./controllers/cards.controllers')
 const {
   handleInvalidRoutes
@@ -11,7 +12,7 @@ const app = express();
 app.set('json spaces', 2);
 
 app.get('/cards', getCardsList);
-
+app.get('/cards/:cardId', getCardById);
 
 app.all('/*', handleInvalidRoutes);
 
