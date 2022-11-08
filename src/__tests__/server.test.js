@@ -1,11 +1,33 @@
-import * as request from 'supertest'
-import { app } from '../server'
+const request = require('supertest');
+const app = require('../server');
 
-test('returns matching card title', async () => {
-  const response = await request(app).get('/cards/card001')
+describe('GET /cards', () => {
+  test('200: should respond with a list of cards', () => {
+    return request(app)
+      .get('/cards')
+      .expect(200)
+      .then((cards) => {
+        const cardsList = JSON.parse(cards.text);
 
-  expect(response.status).toBe(200)
-  expect(response.body).toEqual(expect.objectContaining({
-    title: 'card 1 title',
-  }))
-})
+        expect(cardsList).toBeInstanceOf(Array);
+        cardsList.forEach((card) => {
+          expect(card).toEqual(
+            expect.objectContaining({
+              title: expect.any(String),
+              imageUrl: expect.any(String),
+              card_id: expect.any(String)
+            })
+          )
+        });
+      });
+  });
+
+  test('404: should respond with an error message if the route does not exist', () => {
+    return request(app)
+      .get('/manyCards')
+      .expect(404)
+      .then((errMsg) => {
+        expect(JSON.parse(errMsg.text)).toEqual({ message: 'Route not found' });
+      })
+  });
+});
