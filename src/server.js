@@ -1,13 +1,12 @@
-import * as express from "express";
+const express = require('express');
+const {
+  getCardsList
+} = require('./controllers/cards.controllers')
 
-export const app = express()
+const app = express();
 
 app.set('json spaces', 2);
 
-app.get('/cards', async () => {
-  // respond with a list of cards
-})
+app.get('/cards', getCardsList);
 
-app.get('/cards/:cardId/:sizeId?', () => {
-  // respond with card by id
-})
+module.exports = app;

@@ -2,7 +2,7 @@ const request = require('supertest');
 const app = require('../server');
 
 describe('GET /cards', () => {
-  test('200: should respond with a list of cards', () => {
+  test.only('200: should respond with a list of cards', () => {
     return request(app)
       .get('/cards')
       .expect(200)
